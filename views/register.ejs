@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+
+    <link rel="stylesheet" href="./css/login.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="title">Registration</div>
+      <div class="content">
+        <form
+          action="/register"
+          method="post"
+          onsubmit="return password_verification()"
+        >
+          <div class="user-details">
+            <div class="input-box">
+              <p id="showerror-name" style="color: red"></p>
+              <span class="details">Name</span>
+              <input
+                type="text"
+                placeholder="Enter your Name"
+                name="name"
+                id="name"
+              />
+              <span
+                id="hidden_text_name"
+                class="field"
+                style="color: red"
+              ></span>
+            </div>
+            <div class="input-box">
+              <p id="showerror" style="color: red"></p>
+              <span class="details">Email</span>
+              <input
+                type="text"
+                placeholder="Enter your email"
+                name="email"
+                id="email"
+                onchange="clone_email(this.value)"
+                required
+              />
+              <span
+                id="hidden_text_email"
+                class="field"
+                style="color: red"
+              ></span>
+            </div>
+
+            <div class="input-box">
+              <span class="details">Password</span>
+              <input
+                type="password"
+                autocomplete="off"
+                placeholder="Enter your password"
+                name="password"
+                id="password"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Confirm Password</span>
+              <input
+                type="password"
+                placeholder="Confirm your password"
+                autocomplete="off"
+                name="confirm_password"
+                id="confirm_password"
+                required
+              />
+              <span id="hidden_text" class="field" style="color: red"></span>
+            </div>
+          </div>
+          <div class="button">
+            <input type="submit" value="Register" id="submit" />
+          </div>
+
+          <div class="text">
+            <p>
+              If you have an account?
+              <a href="/login" class="link"> Login here</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
