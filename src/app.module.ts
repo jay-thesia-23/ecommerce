@@ -3,12 +3,20 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { UserAddressModule } from './user-address/user-address.module';
-import { AuthModule } from './auth/auth.module';
+
 import { RolesModule } from './roles/roles.module';
-import { LoginModule } from './login/login.module';
+
+import { DashboardModule } from './dashboard/dashboard.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UserModule, UserAddressModule, AuthModule, RolesModule, LoginModule],
+  imports: [
+    UserModule,
+    UserAddressModule,
+    AuthModule,
+    RolesModule,
+    DashboardModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
