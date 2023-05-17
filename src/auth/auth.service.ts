@@ -41,8 +41,6 @@ export class AuthService {
         },
       });
 
-      console.log(userDetails, 'details...user');
-
       if (!userDetails) {
         throw new ForbiddenException('Credentials incorrect');
       }
@@ -57,7 +55,9 @@ export class AuthService {
         throw new ForbiddenException('Credentials incorrect');
       }
 
-      return 1;
+      console.log(passMatch);
+
+      return passMatch;
     } catch (error) {
       console.log(error, 'error in conroller');
     }

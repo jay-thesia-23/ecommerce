@@ -7,7 +7,11 @@ import {
   Param,
   Delete,
   Render,
+  Response,
+  Res,
 } from '@nestjs/common';
+import { response } from 'express';
+
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { CreateLoginDto } from './dto/create-login.dto';
@@ -24,8 +28,6 @@ export class AuthController {
   //sign in the user from the register page
   @Post('register')
   signup(@Body() createAuthDto: CreateAuthDto) {
-    console.log(createAuthDto, 'dtso');
-
     return this.authService.signup(createAuthDto);
   }
 
@@ -34,10 +36,14 @@ export class AuthController {
   loginPage() {}
 
   @Post('login')
-  signin(@Body() createLoginDto: CreateLoginDto) {
-    console.log(createLoginDto, 'dto');
+  async signin(@Body() createLoginDto: CreateLoginDto) {
+    let validateUser = await this.authService.signIn(createLoginDto);
 
-    return this.authService.signIn(createLoginDto);
+    console.log(validateUser, 'user is true');
+
+    if (validateUser) {
+      response.redirect('/dashboard');
+    }
   }
 
   @Post()

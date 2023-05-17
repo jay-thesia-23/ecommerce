@@ -1,3 +1,5 @@
+import { CreateLoginDto } from './../auth/dto/create-login.dto';
+
 import { AuthService } from './../auth/auth.service';
 import {
   Controller,
@@ -34,11 +36,13 @@ export class DashboardController {
 
   @Post('index')
   @Redirect('/dashboard')
-  async redirect() {
-    let curr = this.authservice.signIn;
+  async redirect(@Body() createloigindto: CreateLoginDto) {
+    let curr = await this.authservice.signIn(createloigindto);
+
+    console.log(curr, 'current');
 
     if (curr) {
-      return;
+      return 'user is logged in ';
     } else {
       console.log('incorrect user name');
     }

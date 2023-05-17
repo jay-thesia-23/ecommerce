@@ -4,9 +4,7 @@ import { UpdateDashboardDto } from './dto/update-dashboard.dto';
 
 @Injectable()
 export class DashboardService {
-  create(createDashboardDto: CreateDashboardDto) {
-    location.href = 'https://www.w3schools.com';
-  }
+  create(createDashboardDto: CreateDashboardDto) {}
 
   findAll() {
     return `This action returns all dashboard`;
