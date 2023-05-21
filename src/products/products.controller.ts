@@ -8,26 +8,22 @@ import {
   Delete,
   Render,
   Query,
+  Req,
 } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { request, response } from "express";
+import { Request } from "express";
+
 
 @Controller("products")
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
-  }
-
   @Get()
   @Render("product")
   async productRender() {
     const cate = await this.findAllCategory();
-    const subCate = await this.findAllSubCategory('1');
+    const subCate = await this.findAllSubCategory(1);
 
     return { cate, subCate };
   }
@@ -40,7 +36,7 @@ export class ProductsController {
   }
 
   @Get("subcategory")
-  async findAllSubCategory(@Query() id: string) {
+  async findAllSubCategory(@Query("id") id:number) {
     console.log(id, "requenst");
 
     const getsubCategory = await this.productsService.findAllSubCategory(+id);
@@ -54,6 +50,18 @@ export class ProductsController {
   findOne(@Param("id") id: string) {
     return this.productsService.findOne(+id);
   }
+
+  @Post()
+  create(@Body() createProductDto, @Req() req:Request) {
+
+    console.log(req.body,req.file);
+    
+    console.log(createProductDto);
+    
+    
+    return this.productsService.create(createProductDto);
+  }
+
 
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateProductDto: UpdateProductDto) {

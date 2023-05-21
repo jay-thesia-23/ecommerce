@@ -8,7 +8,10 @@ const prisma = new PrismaClient()
 @Injectable()
 export class ProductsService {
 
+  //insert the product in the database
   create(createProductDto: CreateProductDto) {
+    console.log(createProductDto,"inside service");
+    
     return 'This action adds a new product';
   }
 

@@ -25,7 +25,7 @@
             <div class="card align-items-center" style="border-radius: 1rem">
               <div class="col-md-6 col-lg-7 d-flex">
                 <div class="card-body p-4 p-lg-5 text-black">
-                  <form action="/category" method="post">
+                  <form action="/products" method="post" enctype="multipart/form-data" onchange="formData()">
                     <div class="d-flex align-items-center mb-3 pb-1">
                       <i
                         class="fas fa-cubes fa-2x me-3"
@@ -45,13 +45,14 @@
                       class="form-select"
                       aria-label="Default select example"
                       name="categoryId"
+                      id="categoryId"
                       onchange="getSub(this)"
                     >
                       <option value="" selected>Select your category</option>
 
                       <%for(let i=0;i<cate.length;i++){%>
 
-                        <option value="<%=cate[i].id%>" ><%=cate[i].categoryName%></option>
+                        <option value="<%=cate[i].id%>" name="categoryId"><%=cate[i].categoryName%></option>
 
                       
                         <%}%>
@@ -64,20 +65,23 @@
                       <select
                       class="form-select"
                       aria-label="Default select example"
-                      name="subcategoryId"
+                      name="subCategoryId"
+                      id="dynamicOptionSC"
                     >
                       <option value="" selected>Select your subcategory</option>
-                    
+                     
                     </select>
+
+                   
                     </div>
 
-                    <div class="form-outline mb-4"></div>
+                    
 
                     <div class="form-outline mb-4">
                       <input
                       type="text"
-                      name="category"
-                      id="category"
+                      name="productName"
+                      id="productName"
                       class="form-control form-control-lg"
                     />
                     <label class="form-label" for="form2Example17"
@@ -85,9 +89,9 @@
                     </div>
                     <div class="form-outline mb-4">
                       <input
-                      type="text"
-                      name="category"
-                      id="category"
+                      type="number"
+                      name="productPrice"
+                      id="productPrice"
                       class="form-control form-control-lg"
                     />
                     <label class="form-label" for="form2Example17"
@@ -100,8 +104,8 @@
                     
                       <input
                         type="text"
-                        name="category"
-                        id="category"
+                        name="productDes"
+                        id="productDes"
                         class="form-control form-control-lg"
                       />
                       <label class="form-label" for="form2Example17"
@@ -114,9 +118,9 @@
                       
                     
                       <input
-                        type="text"
-                        name="category"
-                        id="category"
+                        type="number"
+                        name="productQuan"
+                        id="productQuan"
                         class="form-control form-control-lg"
                       />
                       <label class="form-label" for="form2Example17"
@@ -130,8 +134,8 @@
                     
                       <input
                         type="file"
-                        name="category"
-                        id="category"
+                        name="productImage"
+                        id="productImage"
                         class="form-control form-control-lg"
                       />
                       <label class="form-label" for="form2Example17"
@@ -145,6 +149,7 @@
                         value="Add Category"
                         class="btn btn-dark btn-lg btn-block"
                         onclick="return validation()"
+                        onchange=""
                       />
                     </div>
                   </form>
@@ -160,6 +165,7 @@
       function validation() {
         let cate = document.getElementById('category').value;
         let error = document.getElementById('errorCategory');
+    
 
         if (cate == undefined || cate == '') {
           error.innerText = '*Please enter the category first';
@@ -171,14 +177,53 @@
 
       async function getSub(product){
 
+        let optionSC=document.getElementById("dynamicOptionSC")
+        optionSC.innerHTML=""
+
         console.log(product.value,"prpoduct fetch");
-       const response= await fetch(`/products/subcategory?id=${product.value}`)
+       const response= await fetch(`/products/subcategory?id=${product.value}`, {
+        method:"GET",
+        headers:{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+       })
        const ans=await response.json()
 
+     
+       optionSC.add(new Option("Select your subcategory",""))
+
+       for(let i=0;i<ans.length;i++){
+        let newOption=new Option(`${ans[i].subCategoryName}`,`${ans[i].id}`)
+        optionSC.add(newOption)
+       }
+
+      
+       
        console.log(ans,"answer");
        console.log("clicked");
 
 
+      }
+
+      async function formData(){
+
+        let categoryId=document.getElementById("categoryId").value
+        console.log(categoryId,"cate Id");
+        const response=await fetch("/products",{
+          method:"POST",
+          headers:{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body:JSON.stringify({
+            "categoryId":categoryId
+          })
+        })
+
+        const response2=await response.json();
+
+        console.log(response2,"second resoponse");
       }
     </script>
   </body>
