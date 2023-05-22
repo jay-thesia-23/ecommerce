@@ -12,9 +12,13 @@ import { CategoryModule } from './category/category.module';
 import { SubcategoryModule } from './subcategory/subcategory.module';
 import { ProductsModule } from './products/products.module';
 import { AddCartModule } from './add-cart/add-cart.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest:"/assets/uploads"
+    }),
     UserModule,
     UserAddressModule,
     AuthModule,

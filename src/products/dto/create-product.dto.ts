@@ -3,32 +3,30 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator"
 export class CreateProductDto {
 
     @IsNotEmpty()
-    
-    categoryId:any
-
-    @IsNotEmpty()
-    
-    subCategoryId:any
-    
-    @IsNotEmpty()
-    @IsString()
-    productName:any
+    @IsNumber()
+    categoryId:number
 
     @IsNotEmpty()
     @IsNumber()
-    productPrice:any
-
+    subCategoryId:number
+    
     @IsNotEmpty()
     @IsString()
-    productDes:any
+    productName:string
 
     @IsNotEmpty()
     @IsNumber()
+    productPrice:number
 
-    productQuan:any
+    @IsNotEmpty()
+    @IsString()
+    productDesc:string
+
+    @IsNotEmpty()
+    @IsNumber()
+    productQuantity:number
 
     @IsOptional()
-
-    productImage?:any
+    productImage?:string
 
 }

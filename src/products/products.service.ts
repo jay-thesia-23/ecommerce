@@ -1,18 +1,51 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaService } from './../prisma.service';
 import { Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
+
 import { UpdateProductDto } from './dto/update-product.dto';
 const prisma = new PrismaClient()
 
 @Injectable()
 export class ProductsService {
 
+  constructor(private prisma:PrismaService){}
   //insert the product in the database
-  create(createProductDto: CreateProductDto) {
-    console.log(createProductDto,"inside service");
+  async create(req, file:Express.Multer.File) {
+
     
-    return 'This action adds a new product';
+    console.log(req.body,"inside service");
+
+    try {
+
+      let categoryId=Number(req.body.categoryId)
+      let subCategoryId=Number(req.body.subCategoryId)
+      let productName=req.body.productName
+      let productPrice=Number(req.body.productPrice)
+      let productQuantity=Number(req.body.productQuantity)
+      let productDesc=req.body.productDesc
+      let productImage=file.filename
+      
+      
+      const productAdd=await this.prisma.product.create({
+        data:{
+          productName,
+          productPrice,
+          productDesc,
+          productQuantity,
+          productImage,
+          categoryId,
+          subCategoryId,
+
+        }
+      })
+      
+      return productAdd;
+    } catch (error) {
+      console.log(error,"error");
+      return error
+      
+    }
+
   }
 
   async findAllCategory() {
@@ -32,6 +65,11 @@ export class ProductsService {
       }
     })
     return getCategory;
+  }
+
+  async findAllProducts(){
+
+    return 1;
   }
 
   findOne(id: number) {

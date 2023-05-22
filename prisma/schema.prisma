@@ -70,7 +70,7 @@ model SubCategory {
 model Product {
   id            Int         @id @default(autoincrement())
   productName   String      @unique
-  proudctPrice  Int
+  productPrice  Int
   productDesc   String
   productQuantity Int
   productImage String
@@ -88,4 +88,11 @@ model Product {
   @@index([subCategoryId], map: "Product_subCategoryId_fkey")
 
   @@map("products")
+}
+
+
+model AddCart{
+  id Int @id @default(autoincrement())
+  productId Int
+  productQuantity Int @defalut(1)
 }
