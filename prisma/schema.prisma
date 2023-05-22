@@ -11,13 +11,16 @@ model User {
   id          Int           @id @default(autoincrement())
   name        String
   password    String
-  email       String        @unique
-  roleId      Int         @default(2)
-  role      Role     @relation(fields: [roleId], references: [id])
-  userAddress UserAddress[]
-  createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+  email       String        @unique
+  createdAt   DateTime      @default(now())
+  roleId      Int           @default(2)
+  addCarts    AddCart[]
+  orders      Checkout[]
+  userAddress UserAddress[]
+  role        Role          @relation(fields: [roleId], references: [id])
 
+  @@index([roleId], map: "users_roleId_fkey")
   @@map("users")
 }
 
@@ -39,10 +42,9 @@ model UserAddress {
 model Role {
   id        Int      @id @default(autoincrement())
   role_type String   @unique
-
-  users      User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  users     User[]
 
   @@map("roles")
 }
@@ -72,35 +74,50 @@ model SubCategory {
 }
 
 model Product {
-  id            Int         @id @default(autoincrement())
-  productName   String      @unique
-  productPrice  Int
-  productDesc   String @db.Text
+  id              Int         @id @default(autoincrement())
+  productName     String      @unique
+  productDesc     String      @db.Text
+  subCategoryId   Int
+  categoryId      Int
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
   productQuantity Int
-  productImage String
-  subCategoryId Int
-  categoryId    Int
-  
-
-
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  category      Category    @relation(fields: [categoryId], references: [id])
-  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
-  cart AddCart?
+  productImage    String
+  productPrice    Int
+  cart            AddCart?
+  category        Category    @relation(fields: [categoryId], references: [id])
+  subCategory     SubCategory @relation(fields: [subCategoryId], references: [id])
 
   @@index([categoryId], map: "Product_categoryId_fkey")
   @@index([subCategoryId], map: "Product_subCategoryId_fkey")
-
   @@map("products")
 }
 
+model AddCart {
+  id              Int      @id @default(autoincrement())
+  productId       Int      @unique
+  productQuantity Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  userId          Int
+  product         Product  @relation(fields: [productId], references: [id])
+  user            User     @relation(fields: [userId], references: [id])
 
-model AddCart{
-  id Int @id @default(autoincrement())
-  productId Int @unique
-  product Product @relation(fields: [productId], references: [id])
-  productQuantity Int @default(1)
-
+  @@index([userId], map: "addCarts_userId_fkey")
   @@map("addCarts")
+}
+
+model Checkout{
+  id Int @id @default(autoincrement())
+  productId Int
+  userId Int
+  orderQantity Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id])
+
+  @@map("checkouts")
+
+  
 }

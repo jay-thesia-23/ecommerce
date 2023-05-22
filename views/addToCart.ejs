@@ -93,12 +93,32 @@
         <h5 class="mb-3">tax:0</h5>
 
         <div class="d-inline">
-          <input type="submit" value="Buy Now" class="btn btn-danger ">
+          <input type="submit" value="Buy Now" class="btn btn-danger " onclick="buyNow()">
         </div>
       
     </div>
   
 <script>
+
+async function buyNow(){
+
+  var arrayPId=[]
+  var arrayQuan=[]
+
+  const purchasedItem=await fetch("/checkout",{
+    method:"Post",
+    headers:{
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body:JSON.stringify({
+      "productIdArray":arrayPId,
+      "productQuanArray":arrayQuan,
+      "userId":1
+      
+    })
+  })
+}
 
 async function removeCart(cart) {
    

@@ -1,20 +1,23 @@
 /*
   Warnings:
 
-  - You are about to drop the `AddCart` table. If the table is not empty, all the data it contains will be lost.
+  - A unique constraint covering the columns `[productId]` on the table `addCarts` will be added. If there are existing duplicate values, this will fail.
 
 */
--- AlterTable
-ALTER TABLE `users` MODIFY `roleId` INTEGER NOT NULL DEFAULT 2;
 
--- DropTable
-DROP TABLE `AddCart`;
+
+
 
 -- CreateTable
 CREATE TABLE `addCarts` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `productId` INTEGER NOT NULL,
+    `productId` INTEGER NOT NULL UNIQUE,
     `productQuantity` INTEGER NOT NULL DEFAULT 1,
+     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `addCarts` ADD CONSTRAINT `addCarts_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `products`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -32,7 +32,8 @@ export class DashboardService {
         }
       },
       create:{
-        productId
+        productId,
+        userId:1
       }
     })
 

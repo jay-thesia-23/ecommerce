@@ -1,24 +1,12 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Product` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE `Product` DROP FOREIGN KEY `Product_categoryId_fkey`;
-
--- DropForeignKey
-ALTER TABLE `Product` DROP FOREIGN KEY `Product_subCategoryId_fkey`;
-
--- DropTable
-DROP TABLE `Product`;
 
 -- CreateTable
 CREATE TABLE `products` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `productName` VARCHAR(191) NOT NULL,
-    `proudctPrice` INTEGER NOT NULL,
-    `productDesc` VARCHAR(191) NOT NULL,
+    `productPrice` INTEGER NOT NULL,
+    `productDesc` TEXT NOT NULL,
+    `productQuantity` INTEGER NOT NULL,
+    `productImage` VARCHAR(191) NOT NULL,
     `subCategoryId` INTEGER NOT NULL,
     `categoryId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),

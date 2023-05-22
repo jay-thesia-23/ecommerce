@@ -13,6 +13,7 @@ import { SubcategoryModule } from './subcategory/subcategory.module';
 import { ProductsModule } from './products/products.module';
 import { AddCartModule } from './add-cart/add-cart.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MulterModule } from '@nestjs/platform-express';
     SubcategoryModule,
     ProductsModule,
     AddCartModule,
+    CheckoutModule,
   ],
   controllers: [AppController],
   providers: [AppService],
