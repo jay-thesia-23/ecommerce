@@ -11,10 +11,12 @@ model User {
   id          Int           @id @default(autoincrement())
   name        String
   password    String
-  updatedAt   DateTime      @updatedAt
   email       String        @unique
-  createdAt   DateTime      @default(now())
+  roleId      Int         @default(2)
+  role      Role     @relation(fields: [roleId], references: [id])
   userAddress UserAddress[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@map("users")
 }
@@ -37,6 +39,8 @@ model UserAddress {
 model Role {
   id        Int      @id @default(autoincrement())
   role_type String   @unique
+
+  users      User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -71,7 +75,7 @@ model Product {
   id            Int         @id @default(autoincrement())
   productName   String      @unique
   productPrice  Int
-  productDesc   String
+  productDesc   String @db.Text
   productQuantity Int
   productImage String
   subCategoryId Int
@@ -83,6 +87,7 @@ model Product {
   updatedAt     DateTime    @updatedAt
   category      Category    @relation(fields: [categoryId], references: [id])
   subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
+  cart AddCart?
 
   @@index([categoryId], map: "Product_categoryId_fkey")
   @@index([subCategoryId], map: "Product_subCategoryId_fkey")
@@ -93,6 +98,9 @@ model Product {
 
 model AddCart{
   id Int @id @default(autoincrement())
-  productId Int
-  productQuantity Int @defalut(1)
+  productId Int @unique
+  product Product @relation(fields: [productId], references: [id])
+  productQuantity Int @default(1)
+
+  @@map("addCarts")
 }

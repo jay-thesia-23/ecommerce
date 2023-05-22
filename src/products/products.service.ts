@@ -67,10 +67,7 @@ export class ProductsService {
     return getCategory;
   }
 
-  async findAllProducts(){
 
-    return 1;
-  }
 
   findOne(id: number) {
     return `This action returns a #${id} product`;

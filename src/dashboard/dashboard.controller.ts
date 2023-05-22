@@ -11,6 +11,7 @@ import {
   Delete,
   Render,
   Redirect,
+  Req,
 } from '@nestjs/common';
 
 import { DashboardService } from './dashboard.service';
@@ -32,7 +33,29 @@ export class DashboardController {
 
   @Get()
   @Render('dashboard')
-  root() {}
+  async root() {
+     const allProducts=await this.findAllProducts()
+
+
+    return {allProducts}
+  }
+
+  //get all products
+  async findAllProducts(){
+    const allProducts =await this.dashboardService.findAllProducts();
+
+    return allProducts
+  }
+
+  //add To cart
+  @Post("cart")
+  async addCart(@Req() req){
+
+    let addCard=await this.dashboardService.addCart(req)
+
+    return {addCard}
+    
+  }
 
   @Post('index')
   @Redirect('/dashboard')

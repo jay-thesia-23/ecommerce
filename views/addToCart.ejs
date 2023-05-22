@@ -20,126 +20,125 @@
 <body>
     <h2>Item's in your cart 🛒</h2>
 
-    <div class="d-flex flex-column text-center p-5  bg-success bg-gradient">
-        
-        <h2 class="mt-3 mb-3">Total:300</h2>
-        <h5 class="mb-3">subtotal:300</h5>
-        <h5 class="mb-3">tax:0</h5>
-    </div>
+
+  
 
     <div class="sections container ml-auto">
         <section class="product-section mt-5">
           <div class="row ">
-            <div class="col-3" id="product_1">
+
+          <%let grandTotal=0 %>
+          <%for(let i=0;i<getCart.length;i++){%>
+
+            
+
+            <div class="col-3 " id="<%=getCart[i].id%>">
               <div class="card"  style="width: 18rem">
-                <img
-                  src="images/bat.jpeg"
-                  class="card-img-top rounded-2 p-3"
-                  alt="..."
-                  height="250px"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">New Balance Bat</h5>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make up
-                    the bulk of the card's content.
-                  </p>
-                  
-                  <p class="text-succes d-inline font-weight-bold">₹ 20,000</p><span> x4</span>
-                  <h4>₹ 80,000</h4>
-  
-                  <div class="purchase">
-                    <a href=""
-                      ><img
-                        src="/images/cartLogo.png"
-                        style="width: 2rem"
-                        alt=""
-                        srcset=""
-                    /></a>
-  
-                    <a href=""
-                      ><img
-                        class="ml-4"
-                        src="/images/buynow.png"
-                        style="width: 3rem"
-                        alt=""
-                        srcset=""
-                    /></a>
+                    <img
+                      src="uploads/<%=getCart[i].productImage%>"
+                      class="card-img-top rounded-2 p-3"
+                      alt="..."
+                      height="250px"
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title"><%=getCart[i].productName %></h5>
+                     
+                      
+                      <p class="text-succes d-inline font-weight-bold">₹ <%=getCart[i].productPrice%></p><span> x<%=quantity[i].productQuantity%></span>
+                      <%let total=getCart[i].productPrice * quantity[i].productQuantity;%>
+                      
+                     
+                      <%grandTotal=grandTotal+total;console.log(grandTotal) %>
 
-                    <img src="/images/remove.png" style="width: 2rem" alt="" srcset="" onclick="removeCart(this)">
-
-
-                  </div>
-
-              
-                </div>
-              </div>
-            </div>
-
-
-            <div class="col-3 " id="product_2">
-                <div class="card"  style="width: 18rem">
-                      <img
-                        src="images/bat.jpeg"
-                        class="card-img-top rounded-2 p-3"
-                        alt="..."
-                        height="250px"
-                      />
-                      <div class="card-body">
-                        <h5 class="card-title">New Balance Bat</h5>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and make up
-                          the bulk of the card's content.
-                        </p>
-                        
-                        <p class="text-succes d-inline font-weight-bold">₹ 20,000</p><span> x4</span>
-                        <h4>₹ 80,000</h4>
-        
-                        <div class="purchase">
-                          <a href=""
-                            ><img
-                              src="/images/cartLogo.png"
-                              style="width: 2rem"
-                              alt=""
-                              srcset=""
-                          /></a>
-        
-                          <a href=""
-                            ><img
-                              class="ml-4"
-                              src="/images/buynow.png"
-                              style="width: 3rem"
-                              alt=""
-                              srcset=""
-                          /></a>
+                      <%grandTotal%>
+                      <h4 class="text-success">₹ <%-total %></h4>
       
-                          <img src="/images/remove.png" style="width: 2rem" alt="" srcset="" onclick="removeCart(this)">
+                      <div class="purchase">
+                        <span href="" class="me-2" id="<%=getCart[i].id %>" onclick="addToCart(this)"
+                          ><img
+                            src="/images/plusOne.png"
+                            style="width: 1.7rem"
+                            alt=""
+                            srcset=""
+                        /></span>
       
-      
-                        </div>
-      
-                    
+                        <a href=""
+                          ><img
+                            class="me-2"
+                            src="/images/buynow.png"
+                            style="width: 3rem"
+                            alt=""
+                            srcset=""
+                        /></a>
+    
+                        <img src="/images/remove.png" id="<%=quantity[i].id%>" style="width: 2rem" alt="" srcset="" onclick="removeCart(this)">
+    
+    
                       </div>
-                </div>
-            </div>
-
-
+    
+                  
+                    </div>
+              </div>
+          </div>
+            <% }%>
+        
+            
           </div>
         </section>
       </div>
+      <div class="d-flex flex-column text-center p-5 mt-5  bg-success bg-gradient">
+  
+        <h2 class="mt-3 mb-3">Grand Total:<%-grandTotal%></h2>
+        <h5 class="mb-3">subtotal:<%-grandTotal%></h5>
+        <h5 class="mb-3">tax:0</h5>
 
-      <script>
+        <div class="d-inline">
+          <input type="submit" value="Buy Now" class="btn btn-danger ">
+        </div>
+      
+    </div>
+  
+<script>
 
-        function removeCart(card){
+async function removeCart(cart) {
+   
 
+    const cartAdd = await fetch("/addcart/removeproduct", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "idCart": cart.id
+        })
+    })
 
-            console.log( card.parentElement.parentElement.parentElement.parentElement.id);
+    window.location.reload()
 
-            const productId=card.parentElement.parentElement.parentElement.parentElement.id
-       
-            
+}
 
-        }
-      </script>
+async function addToCart(product) {
+
+    console.log(product.id);
+    const cartAdd = await fetch("/dashboard/cart", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "productId": product.id
+        })
+    })
+
+    const ans = cartAdd.json()
+
+    window.location.reload()
+    console.log(ans, "inside ans ejs");
+}
+      
+      
+</script>
 </body>
 </html>

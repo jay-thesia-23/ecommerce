@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Render } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Render, Req } from '@nestjs/common';
 import { AddCartService } from './add-cart.service';
 import { CreateAddCartDto } from './dto/create-add-cart.dto';
 import { UpdateAddCartDto } from './dto/update-add-cart.dto';
@@ -14,12 +14,41 @@ export class AddCartController {
 
   @Get()
   @Render("addToCart")
-  renderCart(){
+  async renderCart(){
+    
+    const getCartAll=await this.findAll()
+
+
+    let getCart=getCartAll.productsInCart
+    let quantity=getCartAll.cart
+
+    console.log(getCart,quantity,"aaal");
+    
+    return {getCart,quantity}
+    
 
   }
-  @Get("index")
-  findAll() {
-    return this.addCartService.findAll();
+
+  @Post("removeproduct")
+  async disCart(@Req() req){
+
+    console.log(req.body);
+    
+    const removeProduct=await this.addCartService.disCart(req)
+
+    return removeProduct
+  }
+
+
+
+  async findAll() {
+    let getAllCart=await this.addCartService.findAll();
+
+    console.log(getAllCart,"cart insdifs");
+
+    
+    return getAllCart
+    
   }
 
   @Get(':id')

@@ -29,10 +29,13 @@ export class ProductsController {
     const cate = await this.findAllCategory();
     const subCate = await this.findAllSubCategory(1);
 
-    const allProduct=await this.findAllProducts()
+ 
+    
 
     return { cate, subCate };
   }
+
+
 
   @Get("category")
   async findAllCategory() {
