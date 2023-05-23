@@ -12,12 +12,17 @@ import {
   Render,
   Redirect,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 
 import { DashboardService } from './dashboard.service';
 
 import { CreateDashboardDto } from './dto/create-dashboard.dto';
 import { UpdateDashboardDto } from './dto/update-dashboard.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+var passport  = require('passport');
+
+
 
 @Controller('dashboard')
 export class DashboardController {
@@ -32,8 +37,10 @@ export class DashboardController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   @Render('dashboard')
   async root() {
+    
      const allProducts=await this.findAllProducts()
 
 

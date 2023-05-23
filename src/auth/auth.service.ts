@@ -1,14 +1,19 @@
+import { log } from 'console';
 import { ForbiddenException, Get, Injectable, Redirect } from '@nestjs/common';
 
 import { PrismaService } from 'src/prisma.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as dotenv from "dotenv"
+import { ConfigService } from '@nestjs/config';
 
+dotenv.config()
 const roundsOfHashing = 10;
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService,private jwtService:JwtService,private configService:ConfigService) {}
 
   async signup(createAuthDto: CreateAuthDto) {
     console.log(createAuthDto.password, 'password in serveice');
@@ -31,9 +36,13 @@ export class AuthService {
     });
   }
 
-  async signIn(createLoginDto) {
+  async signIn(createLoginDto 
+    
+    
+    
+    ) {
     console.log(createLoginDto, 'inside the service');
-
+    console.log()
     try {
       const userDetails = await this.prisma.user.findFirst({
         where: {
@@ -57,7 +66,15 @@ export class AuthService {
 
       console.log(passMatch);
 
-      return passMatch;
+      const loginToken=this.jwtService.sign({
+        email:createLoginDto.email,
+        password:createLoginDto.password
+      }, {secret: process.env.JWT_SECRET })
+      
+      console.log(loginToken,"token");
+      
+      return loginToken;
+      
     } catch (error) {
       console.log(error, 'error in conroller');
     }

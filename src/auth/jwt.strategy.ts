@@ -1,30 +1,36 @@
+import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { PassportStrategy } from "@nestjs/passport";
 import {Strategy,ExtractJwt} from "passport-jwt"
-import * as dotenv from "dotenv"
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { log } from "console";
 import { PrismaService } from 'src/prisma.service';
 import { Request } from 'express';
+import * as dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
+
+// secretOrKey:`${process.env.JWT_SECRET}`,
+// jwtFromRequest: ExtractJwt.fromExtractors([
+//     JwtStrategy.extractJWTFromCookie,
+//   ]),
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy,"jwt"){
+export class JwtStrategy extends PassportStrategy(Strategy){
 
-    constructor(private authService:AuthService,private prisma:PrismaService){
+    constructor(private authService:AuthService,private prisma:PrismaService,private configService:ConfigService){
         super({
-            jwtFromRequest: ExtractJwt.fromExtractors([
-                JwtStrategy.extractJWTFromCookie,
-              ]),
-            ignoreExpiration: false,
-            secretOrKey:process.env.JWT_SECRET
-           
+
+            jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: process.env.JWT_SECRET,
         })
     }
 
     private static extractJWTFromCookie(req:Request){
 
+        console.log(process.env.JWT_SECRET,"inside the extract jwt");
+        
+        console.log(req.cookies);
+        
         if(req.cookies && req.cookies.loginToken){
             return req.cookies.loginToken
         }
@@ -35,6 +41,8 @@ export class JwtStrategy extends PassportStrategy(Strategy,"jwt"){
 
         // const user=await this.authService.signIn(payload)
 
+        console.log(payload,"goto the stready");
+        
         const user=this.prisma.user.findUnique({
             where:{
                 email:payload.email
@@ -44,7 +52,7 @@ export class JwtStrategy extends PassportStrategy(Strategy,"jwt"){
         console.log("user get in sttregy",user);
         
         if(!user){
-            return null
+            throw new UnauthorizedException();
         }
 
         console.log("check every time in stretegy");

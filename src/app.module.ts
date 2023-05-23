@@ -1,3 +1,4 @@
+import { HttpService, HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,12 +15,20 @@ import { ProductsModule } from './products/products.module';
 import { AddCartModule } from './add-cart/add-cart.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { CheckoutModule } from './checkout/checkout.module';
+import { ConfigModule } from '@nestjs/config';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { HttpServiceInterceptor } from './auth/httpservice.interceptor';
+
 
 @Module({
   imports: [
     MulterModule.register({
       dest:"/assets/uploads"
     }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    
     UserModule,
     UserAddressModule,
     AuthModule,
@@ -30,8 +39,11 @@ import { CheckoutModule } from './checkout/checkout.module';
     ProductsModule,
     AddCartModule,
     CheckoutModule,
+    HttpModule
+  
+   
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,{provide: APP_INTERCEPTOR, useClass: HttpServiceInterceptor}],
 })
 export class AppModule {}

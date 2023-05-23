@@ -1,3 +1,4 @@
+import { JwtService } from '@nestjs/jwt';
 import {
   Controller,
   Get,
@@ -7,19 +8,21 @@ import {
   Param,
   Delete,
   Render,
-  Response,
   Res,
+  Req
+
 } from '@nestjs/common';
-import { response } from 'express';
+import { Request, Response } from 'express';
 
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { HttpService } from '@nestjs/axios';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService,private jwtService:JwtService,private httpService:HttpService) {}
 
   @Get('register')
   @Render('register')
@@ -36,14 +39,32 @@ export class AuthController {
   loginPage() {}
 
   @Post('login')
-  async signin(@Body() createLoginDto: CreateLoginDto) {
-    let validateUser = await this.authService.signIn(createLoginDto);
+  async signin(@Body() createLoginDto: CreateLoginDto,@Res() res:Response,@Req() req:Request) {
 
-    console.log(validateUser, 'user is true');
+    try {
+      
+      let token = await this.authService.signIn(createLoginDto);
 
-    if (validateUser) {
-      response.redirect('/dashboard');
+    
+    
+    console.log(token, 'user is true');
+
+    if (token) {
+    
+      console.log("before not go to inside");
+     res.json(token)
+      console.log("not go to inside");
+      
+    }else{
+      console.log("Going to else");
+      
     }
+    } catch (error) {
+      console.log(error);
+      throw new Error(error)
+      
+    }
+    
   }
 
   @Post()
