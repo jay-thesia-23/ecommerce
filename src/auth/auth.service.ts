@@ -36,13 +36,9 @@ export class AuthService {
     });
   }
 
-  async signIn(createLoginDto 
-    
-    
-    
-    ) {
+  async signIn(createLoginDto) {
     console.log(createLoginDto, 'inside the service');
-    console.log()
+
     try {
       const userDetails = await this.prisma.user.findFirst({
         where: {

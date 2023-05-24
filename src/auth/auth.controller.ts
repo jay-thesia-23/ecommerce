@@ -43,21 +43,14 @@ export class AuthController {
 
     try {
       
+   
       let token = await this.authService.signIn(createLoginDto);
-
-    
-    
-    console.log(token, 'user is true');
+      console.log(token, 'user is true');
 
     if (token) {
-    
       console.log("before not go to inside");
-     res.json(token)
+      res.json(token)
       console.log("not go to inside");
-      
-    }else{
-      console.log("Going to else");
-      
     }
     } catch (error) {
       console.log(error);

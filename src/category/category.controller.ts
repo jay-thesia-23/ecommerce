@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import {
   Controller,
   Get,
@@ -7,6 +8,7 @@ import {
   Param,
   Delete,
   Render,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -17,11 +19,13 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
+
   addCategory(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoryService.addCategory(createCategoryDto);
   }
 
   @Get()
+
   @Render('category')
   root() {}
 

@@ -20,6 +20,7 @@ import { DashboardService } from './dashboard.service';
 import { CreateDashboardDto } from './dto/create-dashboard.dto';
 import { UpdateDashboardDto } from './dto/update-dashboard.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Request } from 'express';
 var passport  = require('passport');
 
 
@@ -39,7 +40,9 @@ export class DashboardController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @Render('dashboard')
-  async root() {
+  async root(@Req() req:Request) {
+    
+    console.log(req.user,"in contreller dashboard");
     
      const allProducts=await this.findAllProducts()
 
@@ -55,6 +58,7 @@ export class DashboardController {
   }
 
   //add To cart
+
   @Post("cart")
   async addCart(@Req() req){
 
@@ -65,6 +69,7 @@ export class DashboardController {
   }
 
   @Post('index')
+
   @Redirect('/dashboard')
   async redirect(@Body() createloigindto: CreateLoginDto) {
     let curr = await this.authservice.signIn(createloigindto);

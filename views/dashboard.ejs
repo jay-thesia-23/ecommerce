@@ -1,38 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script
-    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-    crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="css/product.css">
-    <title>Home</title>
-  </head>
-  <body>
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/product.css">
+
+  <title>Home</title>
+</head>
+
+<body>
+
+  <%- include('index') -%>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#"
-          ><img src="/images/logo.png" style="width: 4rem" alt=""
-        /></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <a class="navbar-brand" href="#"><img src="/images/logo.png" style="width: 4rem" alt="" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -42,14 +33,8 @@
             </li>
 
             <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
                 Category
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,37 +48,15 @@
             </li>
           </ul>
 
-          <a href="/addcart" class="me-3"
-          ><img
-            src="images/cartLogo.png"
-            alt=""
-            srcset=""
-            style="width: 2.5rem"
-        /></a>
+          <a href="/addcart" class="me-3"><img src="images/cartLogo.png" alt="" srcset="" style="width: 2.5rem" /></a>
 
-        <a href="/auth/register" class="me-3"
-        ><img
-          src="images/register.png"
-          alt=""
-          srcset=""
-          style="width: 2.5rem"
-      /></a>
+          <a href="/auth/register" class="me-3"><img src="images/register.png" alt="" srcset=""
+              style="width: 2.5rem" /></a>
 
-      <a href="/auth/login" class="me-3"
-      ><img
-        src="images/login.png"
-        alt=""
-        srcset=""
-        style="width: 2.5rem"
-    /></a>
+          <a href="/auth/login" class="me-3"><img src="images/login.png" alt="" srcset="" style="width: 2.5rem" /></a>
           <form class="d-flex">
-           
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
+
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
             <button class="btn btn-outline-success" type="submit">
               Search
             </button>
@@ -105,11 +68,7 @@
     <div class="sections container">
       <section class="sort-section mt-2">
         <div class="dropdown">
-          <button
-            type="button"
-            class="btn btn-primary dropdown-toggle"
-            data-bs-toggle="dropdown"
-          >
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
             Sort
           </button>
           <ul class="dropdown-menu">
@@ -127,77 +86,83 @@
           <%for(let i=0;i<allProducts.length;i++){%>
             <div class="col-3">
               <div class="card" style="width: 18rem">
-                <img
-                  src="uploads/<%= allProducts[i].productImage %>"
-                  class="card-img-top rounded-2 p-3"
-                  alt="..."
-                  height="250px"
-                />
+                <img src="uploads/<%= allProducts[i].productImage %>" class="card-img-top rounded-2 p-3" alt="..."
+                  height="250px" />
                 <div class="card-body">
-                  <h5 class="card-title"><%=allProducts[i].productName%></h5>
+                  <h5 class="card-title">
+                    <%=allProducts[i].productName%>
+                  </h5>
 
                   <div class="" id="module">
-                    <p class="card-text collapse" id="collapseExample_<%=allProducts[i].id%>" >
+                    <p class="card-text collapse" id="collapseExample_<%=allProducts[i].id%>">
                       <%=allProducts[i].productDesc%>
                     </p>
-  
-                    <a role="button" class="collapsed" data-bs-toggle="collapse"  href="#collapseExample_<%=allProducts[i].id%>"  aria-controls="collapseExample"></a>
+
+                    <a role="button" class="collapsed" data-bs-toggle="collapse"
+                      href="#collapseExample_<%=allProducts[i].id%>" aria-controls="collapseExample"></a>
                   </div>
-                 
 
 
-                  <p class="text-success font-weight-bold">₹ <%=allProducts[i].productPrice%></p>
-  
+
+                  <p class="text-success font-weight-bold">₹ <%=allProducts[i].productPrice%>
+                  </p>
+
                   <div class="purchase">
                     <span id="<%=allProducts[i].id %>" onclick="addToCart(this)">
-                      <img
-                        src="/images/cartLogo.png"
-                        style="width: 2rem"
-                        alt=""
-                        srcset=""
-                    /></span>
-  
-                    <a href=""
-                      ><img
-                        class="ml-4"
-                        src="/images/buynow.png"
-                        style="width: 3rem"
-                        alt=""
-                        srcset=""
-                    /></a>
+                      <img src="/images/cartLogo.png" style="width: 2rem" alt="" srcset="" /></span>
+
+                    <a href=""><img class="ml-4" src="/images/buynow.png" style="width: 3rem" alt="" srcset="" /></a>
                   </div>
                 </div>
               </div>
             </div>
 
-          <%}%>
-         
+            <%}%>
 
-         
+
+
         </div>
       </section>
     </div>
 
+
+
     <script>
 
-      async function addToCart(product){
-        
+      async function addToCart(product) {
+
+        check()
         console.log(product.id);
-        const cartAdd=await fetch("/dashboard/cart",{
-          method:"POST",
-          headers:{
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+        // const cartAdd=await fetch("/dashboard/cart",{
+        //   method:"POST",
+
+        //   headers:{
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body:JSON.stringify({
+        //     "productId":product.id
+        //   })
+        // })
+
+     
+
+        const cartAdd = await axios({
+          method: 'post',
+          url: '/dashboard/cart',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("loginToken")}`
           },
-          body:JSON.stringify({
-            "productId":product.id
-          })
-        })
-
-        const ans=cartAdd.json()
-
-        console.log(ans,"inside ans ejs");
+          data: {
+            "productId": product.id
+          }
+        });
+        console.log(cartAdd)
       }
     </script>
-  </body>
+
+
+
+</body>
+
 </html>

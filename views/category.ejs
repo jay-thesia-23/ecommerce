@@ -18,6 +18,8 @@
     <title>Category</title>
   </head>
   <body>
+
+    <%- include('index') -%> 
     <section class="vh-100" style="background-color: #9a616d">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -67,7 +69,13 @@
       </div>
     </section>
 
+    
     <script>
+
+    check()
+      const cartAdd = await axios.get('/category');
+      console.log(cartAdd)
+
       function validation() {
         let cate = document.getElementById('category').value;
         let error = document.getElementById('errorCategory');

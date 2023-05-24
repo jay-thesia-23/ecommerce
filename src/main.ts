@@ -8,6 +8,8 @@ import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
 import * as passport from "passport";
 
+import flash from 'connect-flash'
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -28,6 +30,7 @@ async function bootstrap() {
 
   app.use(passport.initialize());
   app.use(passport.session());
+
 
   app.useGlobalPipes(
     new ValidationPipe({
