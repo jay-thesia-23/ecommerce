@@ -17,7 +17,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { CheckoutModule } from './checkout/checkout.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { HttpServiceInterceptor } from './auth/httpservice.interceptor';
+
 
 
 @Module({
@@ -44,6 +44,6 @@ import { HttpServiceInterceptor } from './auth/httpservice.interceptor';
    
   ],
   controllers: [AppController],
-  providers: [AppService,{provide: APP_INTERCEPTOR, useClass: HttpServiceInterceptor}],
+  providers: [AppService],
 })
 export class AppModule {}
