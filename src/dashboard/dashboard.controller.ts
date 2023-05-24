@@ -13,6 +13,7 @@ import {
   Redirect,
   Req,
   UseGuards,
+  Res,
 } from '@nestjs/common';
 
 import { DashboardService } from './dashboard.service';
@@ -20,7 +21,7 @@ import { DashboardService } from './dashboard.service';
 import { CreateDashboardDto } from './dto/create-dashboard.dto';
 import { UpdateDashboardDto } from './dto/update-dashboard.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 var passport  = require('passport');
 
 
@@ -41,20 +42,15 @@ export class DashboardController {
   @UseGuards(JwtAuthGuard)
   @Render('dashboard')
   async root(@Req() req:Request) {
-    
-    console.log(req.user,"in contreller dashboard");
-    
-     const allProducts=await this.findAllProducts()
-
-
-    return {allProducts}
   }
 
-  //get all products
-  async findAllProducts(){
+
+  @Get("getproduct")
+  @UseGuards(JwtAuthGuard)
+  async findAllProducts(@Res() res:Response){
     const allProducts =await this.dashboardService.findAllProducts();
 
-    return allProducts
+   res.json({allProducts})
   }
 
   //add To cart

@@ -41,7 +41,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
     async validate(payload:any){
 
         // const user=await this.authService.signIn(payload)
-        this.extractJWTFromCookie(request)
+       
         console.log(payload,"goto the stready");
         
         const user=await this.prisma.user.findUniqueOrThrow({

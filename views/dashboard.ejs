@@ -11,14 +11,13 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/product.css" />
 
   <title>Home</title>
 </head>
 
-<body>
+<body onload="dashboardOnload()">
 
-  <%- include('index') -%>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#"><img src="/images/logo.png" style="width: 4rem" alt="" /></a>
@@ -55,7 +54,6 @@
 
           <a href="/auth/login" class="me-3"><img src="images/login.png" alt="" srcset="" style="width: 2.5rem" /></a>
           <form class="d-flex">
-
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
             <button class="btn btn-outline-success" type="submit">
               Search
@@ -78,60 +76,79 @@
         </div>
       </section>
 
-
-
       <section class="product-section mt-4">
-        <div class="row">
+        <div class="row" id="row"></div>
+      </section>
+    </div>
 
-          <%for(let i=0;i<allProducts.length;i++){%>
-            <div class="col-3">
+    <script>
+      async function dashboardOnload() {
+        const renderPage = await fetch("/dashboard/getproduct",{
+          method: "get",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
+          },
+        })
+          .then((res) => {
+            console.log(res);
+            return res.json();
+          })
+          .then(({allProducts}) => {
+            console.log(allProducts, "dashboard axios requ");
+
+            let row=document.getElementById("row");
+       
+
+          
+            for (let i = 0; i < allProducts?.length; i++) {
+              row.innerHTML += `<div class="col-3">
               <div class="card" style="width: 18rem">
-                <img src="uploads/<%= allProducts[i].productImage %>" class="card-img-top rounded-2 p-3" alt="..."
+                <img src="uploads/${allProducts[i]?.productImage} " class="card-img-top rounded-2 p-3" alt="..."
                   height="250px" />
                 <div class="card-body">
                   <h5 class="card-title">
-                    <%=allProducts[i].productName%>
+                    ${allProducts[i]?.productName}
                   </h5>
 
                   <div class="" id="module">
-                    <p class="card-text collapse" id="collapseExample_<%=allProducts[i].id%>">
-                      <%=allProducts[i].productDesc%>
+                    <p class="card-text collapse" id="collapseExample_${allProducts[i].id}">
+                      ${allProducts[i]?.productDesc}
                     </p>
 
                     <a role="button" class="collapsed" data-bs-toggle="collapse"
-                      href="#collapseExample_<%=allProducts[i].id%>" aria-controls="collapseExample"></a>
+                      href="#collapseExample_${allProducts[i]?.id}" aria-controls="collapseExample"></a>
                   </div>
 
 
 
-                  <p class="text-success font-weight-bold">₹ <%=allProducts[i].productPrice%>
+                  <p class="text-success font-weight-bold">₹ ${allProducts[i]?.productPrice}
                   </p>
 
                   <div class="purchase">
-                    <span id="<%=allProducts[i].id %>" onclick="addToCart(this)">
+                    <span id="${allProducts[i]?.id}" onclick="addToCart(this)">
                       <img src="/images/cartLogo.png" style="width: 2rem" alt="" srcset="" /></span>
 
                     <a href=""><img class="ml-4" src="/images/buynow.png" style="width: 3rem" alt="" srcset="" /></a>
                   </div>
                 </div>
               </div>
-            </div>
+            </div>`;
+            }
 
-            <%}%>
+     
+          });
 
+          let token=localStorage.getItem("loginToken")
+          console.log(token,"tokkkkkkkkkkkkkkkkkkkkkkk");
 
-
-        </div>
-      </section>
-    </div>
-
-
-
-    <script>
+          if(!token){
+            location.assign("/auth/login")
+          }
+      }
 
       async function addToCart(product) {
-
-        check()
         console.log(product.id);
         // const cartAdd=await fetch("/dashboard/cart",{
         //   method:"POST",
@@ -145,24 +162,19 @@
         //   })
         // })
 
-     
-
         const cartAdd = await axios({
-          method: 'post',
-          url: '/dashboard/cart',
+          method: "post",
+          url: "/dashboard/cart",
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem("loginToken")}`
+            Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
           },
           data: {
-            "productId": product.id
-          }
+            productId: product.id,
+          },
         });
-        console.log(cartAdd)
+        console.log(cartAdd);
       }
     </script>
-
-
-
 </body>
 
 </html>

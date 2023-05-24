@@ -6,13 +6,21 @@ import { request, Response } from "express";
 @Injectable()
 export class JwtAuthGuard extends AuthGuard("jwt"){
 
-  handleRequest<TUser = any>(err: any, user: any, info: any, context: ExecutionContext, status?: any,res?:Response): TUser {
+  handleRequest<TUser = any>(err: any, user: any, info: any, context: ExecutionContext, status?: any): TUser {
 
-    // if(!user){
-    //   throw new UnauthorizedException()
-    // }
-    console.log(user,"inside jwt auth guard");
+    if(!user){
+      console.log(user,"sdfudoifjsd");
+      
+      throw new UnauthorizedException()
+
+    }else{
+      const request=context.switchToHttp().getRequest();
+      request.user=user
+      console.log(user,"inside jwt auth guard");
       return user
+
+    }
+     
   }
 
   // async canActivate(context: ExecutionContext) {

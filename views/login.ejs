@@ -110,19 +110,6 @@
         const ans = await res.json();
         localStorage.setItem("loginToken", ans);
 
-       
-    
-      //   const cartAdd = await axios({
-      //   method: 'get',
-      //   url: '/dashboard',
-      //   headers: {
-      //       'Authorization': `Bearer ${localStorage.getItem("loginToken")}`
-      //     },
-       
-     
-      // });
-      // console.log(cartAdd)
-
       window.location.replace("/dashboard");
         console.log(ans,"second than");
       });

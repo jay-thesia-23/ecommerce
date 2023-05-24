@@ -15,3 +15,10 @@ async function check(){
 
 
 
+
+async function apiCall({url, method, body, headers}) {
+
+return  fetch({}).then()
+
+  
+}
