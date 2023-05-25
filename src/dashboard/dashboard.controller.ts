@@ -39,7 +39,7 @@ export class DashboardController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
+ 
   @Render('dashboard')
   async root(@Req() req:Request) {
   }

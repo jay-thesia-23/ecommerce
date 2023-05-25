@@ -17,7 +17,7 @@ dotenv.config();
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy){
 
-    constructor(private authService:AuthService,private prisma:PrismaService,private configService:ConfigService){
+    constructor(private prisma:PrismaService){
         super({
             
             jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -26,17 +26,17 @@ export class JwtStrategy extends PassportStrategy(Strategy){
     }
 
 
-      extractJWTFromCookie(req:Request){
+    //   extractJWTFromCookie(req:Request){
 
-        console.log(process.env.JWT_SECRET,"inside the extract jwt");
+    //     console.log(process.env.JWT_SECRET,"inside the extract jwt");
     
        
         
-        if(req.cookies && req.cookies.loginToken){
-            return req.cookies.loginToken
-        }
-        return null;
-    }
+    //     if(req.cookies && req.cookies.loginToken){
+    //         return req.cookies.loginToken
+    //     }
+    //     return null;
+    // }
 
     async validate(payload:any){
 
@@ -47,6 +47,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
         const user=await this.prisma.user.findUniqueOrThrow({
             where:{
                 email:payload.email
+
             }
         })
         

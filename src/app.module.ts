@@ -17,6 +17,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { CheckoutModule } from './checkout/checkout.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AdminPanelModule } from './admin-panel/admin-panel.module';
 
 
 
@@ -39,7 +40,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     ProductsModule,
     AddCartModule,
     CheckoutModule,
-    HttpModule
+    HttpModule,
+    AdminPanelModule
   
    
   ],

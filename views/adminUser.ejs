@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
+  </head>
+
+  <body>
+    <table id="myTable">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>email</th>
+          <th>roleId</th>
+          <th>delete</th>
+        
+   
+        </tr>
+      </thead>
+
+      <tbody id="data"></tbody>
+    </table>
+  </body>
+
+  <script>
+    var currtbl = $(document).ready(function () {
+      $("#myTable").DataTable({
+        serverSide: true,
+        processing: false,
+        searching: true,
+        ordering: true,
+        paging: true,
+        // serverMethod: "get",
+        // // dom: "Bfrtip",
+        // buttons: ["colvis"],
+
+        lengthMenu: [
+          [5, 15, 20, 25, 50, 100, 1844674407370955161],
+          [5, 15, 20, 25, 50, 100, "All"],
+        ],
+        ajax: {
+          url: "/adminPanel/getdata",
+          type: "get",
+          // success: function (data) {
+          //   console.log(data);
+          // },
+        },
+
+        columns: [
+          { data:"id" },
+          { data: "name" },
+          { data: "email" },
+          { data: "roleId" },
+          { data: null,
+                className: "dt-center editor-edit",
+                defaultContent: '<i class="fa fa-pencil"/>',
+                orderable: false
+          }
+        ],
+      });
+    });
+;
+
+     
+    
+
+
+  </script>
+</html>
