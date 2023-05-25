@@ -13,6 +13,9 @@ export class AdminPanelService {
 
   async findAll() {
     let users = await this.prisma.user.findMany({
+      where:{
+        deleted:false
+      },
       select: {
         password: false,
         updatedAt: false,
@@ -21,7 +24,7 @@ export class AdminPanelService {
         name: true,
         email: true,
         roleId: true,
-        deleted: true,
+    
       },
     });
 
@@ -37,7 +40,31 @@ export class AdminPanelService {
     return `This action updates a #${id} adminPanel`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} adminPanel`;
+  async deleteUser(userId){
+
+    console.log(userId,"service id");
+    
+    const data =await this.prisma.user.update({
+      where:{
+        id:(userId)
+      },
+      data: {
+        deleted:true,
+      },
+    })
+
+    return data;
+  }
+
+  async editUser(userId){
+
+//     const update=await this.prisma.user.update({
+//       where:{
+//         id:userId
+//       },
+//       select:{
+//         ...
+//       }
+//     })
   }
 }

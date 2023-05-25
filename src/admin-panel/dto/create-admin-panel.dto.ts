@@ -1,1 +1,3 @@
-export class CreateAdminPanelDto {}
+export class CreateAdminPanelDto {
+  deleted:Boolean
+}

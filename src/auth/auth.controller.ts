@@ -43,7 +43,6 @@ export class AuthController {
 
     try {
       
-   
       let token = await this.authService.signIn(createLoginDto);
       console.log(token, 'user is true');
 

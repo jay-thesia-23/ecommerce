@@ -18,6 +18,7 @@ import { CheckoutModule } from './checkout/checkout.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AdminPanelModule } from './admin-panel/admin-panel.module';
+import { XModule } from './x/x.module';
 
 
 
@@ -41,7 +42,8 @@ import { AdminPanelModule } from './admin-panel/admin-panel.module';
     AddCartModule,
     CheckoutModule,
     HttpModule,
-    AdminPanelModule
+    AdminPanelModule,
+    XModule
   
    
   ],
